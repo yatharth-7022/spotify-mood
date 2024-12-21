@@ -10,9 +10,9 @@ function AppLayout() {
       <div className="h-screen w-[70px] bg-navbar lg:w-[250px]">
         <Navbar />
       </div>
-      <div className="flex h-screen flex-1 flex-col bg-custom-gradient px-9">
+      <div className="flex h-screen flex-1 flex-col bg-custom-gradient px-9 pb-5">
         <Header />
-        <div className="flex-1 overflow-y-auto">
+        <div className="scrollbar-none flex-1 overflow-y-auto">
           <Greeting />
           <AddedPlaylist />
           <PlayListHeading />

@@ -8,6 +8,11 @@ const albumIds = [
   "0ptlfJfwGTy0Yvrk14JK1I",
   "690w3h4czL3x3W3zIgEcB6",
   "4SZko61aMnmgvNhfhgTuD3",
+  "41GuZcammIkupMPKH2OJ6I",
+  "4PWBTB6NYSKQwfo79I3prg",
+  "16PSZwABl4VFJvfDFOPOoB",
+  "1kTlYbs28MXw7hwO0NLYif",
+  "2ODvWsOgouMbaA5xf0RkJe",
 ];
 
 function Playlist() {
@@ -33,7 +38,6 @@ function Playlist() {
         }
         const data = await response.json();
         setAlbumData((prevData) => data);
-        console.log(albumData, "pla");
       } catch (err) {
         console.log(err);
       }
@@ -42,7 +46,7 @@ function Playlist() {
   }, []);
 
   return (
-    <div className="scrollbar-hide mt-5 grid h-[50%] w-full grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+    <div className="mt-5 grid h-[50%] w-full grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
       <Album albumData={albumData} />
     </div>
   );
