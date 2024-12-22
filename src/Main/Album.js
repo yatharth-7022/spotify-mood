@@ -5,13 +5,13 @@ function Album({ albumData, loading }) {
       {albumData.albums?.map((album) => (
         <div
           key={album.id}
-          className="flex h-fit flex-col bg-[#181818] pb-3 sm:gap-1 md:gap-2"
+          className="flex h-fit flex-col pb-3 hover:bg-[#181818]"
         >
           {loading ? (
             <div className="h-[10rem] w-[10rem] text-white">Loading....</div>
           ) : (
             <>
-              <div className="aspect-square transform cursor-pointer transition-transform duration-300 hover:scale-105 lg:scale-75">
+              <div className="aspect-square transform cursor-pointer transition-transform duration-300 hover:scale-[90%] lg:scale-75">
                 <img
                   className="h-full w-full rounded-xl object-cover sm:hidden md:hidden lg:block"
                   src={album.images[0].url}
@@ -28,7 +28,7 @@ function Album({ albumData, loading }) {
                   alt=""
                 />
               </div>
-              <div className="flex flex-col gap-1 lg:px-6">
+              <div className="flex flex-col gap-1 lg:px-8">
                 <div className="overflow-hidden truncate whitespace-nowrap text-white">
                   {album.name}
                 </div>

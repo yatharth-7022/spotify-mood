@@ -4,8 +4,8 @@ import AppLayout from "../applayout/AppLayout";
 
 const clientId = "00e7dcc0cb3e487580d6f1bb18a480c8";
 const clientSecret = "fa892f25cf2d4b5f94fc36529016aa5d";
-const redirectUri = "https://0c7b-182-69-179-3.ngrok-free.app/callback";
-
+// const redirectUri = "https://0c7b-182-69-179-3.ngrok-free.app/callback";
+const redirectUri = "http://localhost:3000/callback";
 const Callback = () => {
   useEffect(() => {
     const getAccessToken = async () => {
