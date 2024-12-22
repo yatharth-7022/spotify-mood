@@ -1,6 +1,7 @@
 // Callback.js
 import React, { useEffect } from "react";
-import AppLayout from "../applayout/AppLayout";
+import MainContent from "../Main/MainContent";
+// import AppLayout from "../applayout/AppLayout";
 
 const clientId = "00e7dcc0cb3e487580d6f1bb18a480c8";
 const clientSecret = "fa892f25cf2d4b5f94fc36529016aa5d";
@@ -59,7 +60,8 @@ const Callback = () => {
 
   return (
     <div>
-      <AppLayout />
+      {/* <AppLayout /> */}
+      <MainContent />
     </div>
   );
 };

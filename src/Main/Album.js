@@ -1,11 +1,19 @@
+import { useState } from "react";
+import { useNavContext } from "../state managament/NavContext";
+import { useRoutes } from "react-router";
 function Album({ albumData, loading }) {
+  const { handleSelectedAlbum, selectedAlbum } = useNavContext();
   console.log(albumData);
+
   return (
     <>
       {albumData.albums?.map((album) => (
         <div
           key={album.id}
           className="flex h-fit flex-col pb-3 hover:bg-[#181818]"
+          onClick={() => {
+            handleSelectedAlbum(album.id);
+          }}
         >
           {loading ? (
             <div className="h-[10rem] w-[10rem] text-white">Loading....</div>
