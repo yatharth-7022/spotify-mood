@@ -17,8 +17,11 @@ const albumIds = [
 
 function Playlist() {
   const [albumData, setAlbumData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const albumDisplay = async () => {
+      setIsLoading(true);
       const accessToken = localStorage.getItem("access_token");
       console.log(accessToken);
       if (!accessToken) {
@@ -36,10 +39,13 @@ function Playlist() {
         if (!response.ok) {
           throw new Error("cannot fetch data");
         }
+
         const data = await response.json();
         setAlbumData((prevData) => data);
       } catch (err) {
         console.log(err);
+      } finally {
+        setIsLoading(false);
       }
     };
     albumDisplay();
@@ -47,7 +53,7 @@ function Playlist() {
 
   return (
     <div className="mt-5 grid h-[50%] w-full grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6">
-      <Album albumData={albumData} />
+      <Album albumData={albumData} loading={isLoading} />
     </div>
   );
 }

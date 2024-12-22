@@ -12,7 +12,7 @@ function AppLayout() {
       </div>
       <div className="flex h-screen flex-1 flex-col bg-custom-gradient px-9 pb-5">
         <Header />
-        <div className="scrollbar-none flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto scrollbar-none">
           <Greeting />
           <AddedPlaylist />
           <PlayListHeading />

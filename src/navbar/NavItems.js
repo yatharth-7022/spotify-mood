@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useContext } from "react";
+import { useNavContext } from "../state managament/NavContext";
+import Search from "../ui/Search";
 const navItems1 = [
   {
     id: 1,
@@ -18,10 +20,7 @@ const navItems2 = [
   { id: 6, label: "Your episodes", logo: "/assets/episodes.png" },
 ];
 function NavItems() {
-  const [isActive, setIsActive] = useState(null);
-  const handleIsActive = (id) => {
-    setIsActive(id);
-  };
+  const { isActive, handleIsActive } = useNavContext();
   return (
     <>
       <div className="w-full justify-center lg:flex lg:justify-start">
@@ -45,7 +44,12 @@ function NavItems() {
                 : "transition-all duration-300 ease-in-out hover:bg-[#282828]"
             } flex flex-row justify-center rounded-md py-2 font-semibold hover:cursor-pointer lg:justify-start lg:px-3 lg:py-2 lg:text-[1rem]`}
             key={navItem.id}
-            onClick={() => handleIsActive(navItem.id)}
+            onClick={() => {
+              handleIsActive(navItem.id);
+              if (navItem.id === 2) {
+                <Search />;
+              }
+            }}
           >
             <div className="flex w-fit flex-row items-center gap-4">
               <img src={navItem.logo} alt="label logo" />
