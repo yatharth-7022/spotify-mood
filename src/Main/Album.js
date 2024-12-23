@@ -1,10 +1,11 @@
-import { useState } from "react";
 import { useNavContext } from "../state managament/NavContext";
-import { useRoutes } from "react-router";
-function Album({ albumData, loading }) {
-  const { handleSelectedAlbum, selectedAlbum } = useNavContext();
-  console.log(albumData);
+import { useNavigate } from "react-router";
+import { useState } from "react";
 
+function Album({ albumData, loading }) {
+  console.log(albumData);
+  const navigate = useNavigate();
+  const { handleAlbumSelection } = useNavContext();
   return (
     <>
       {albumData.albums?.map((album) => (
@@ -12,7 +13,8 @@ function Album({ albumData, loading }) {
           key={album.id}
           className="flex h-fit flex-col pb-3 hover:bg-[#181818]"
           onClick={() => {
-            handleSelectedAlbum(album.id);
+            handleAlbumSelection(album.id);
+            navigate(`/album/${album.id}`);
           }}
         >
           {loading ? (

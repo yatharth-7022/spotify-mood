@@ -6,6 +6,7 @@ import LoginButton from "./server/LoginButton";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Search from "./ui/Search";
 import MainContent from "./Main/MainContent";
+import AlbumDetails from "./Main/AlbumDetails";
 
 function App() {
   return (
@@ -22,6 +23,10 @@ function App() {
                 <Route path="/" element={<LoginButton />} />
                 <Route path="/callback" element={<Callback />} />
                 <Route path="/search" element={<Search />} />
+                <Route
+                  path="/album/:albumId"
+                  element={<AlbumDetails />}
+                ></Route>
               </Routes>
             </div>
           </div>
