@@ -1,9 +1,15 @@
 import { useNavContext } from "../state managament/NavContext";
+import AlbumControl from "./AlbumControl";
+import AlbumDetailsHeader from "./AlbumDetailsHeader";
+import TrackHeading from "./TrackHeading";
 
 function AlbumDetails() {
+  const { selectedAlbum } = useNavContext();
   return (
-    <div>
-      <p className="text-white">hi</p>
+    <div className="flex h-full w-full flex-col gap-5">
+      <AlbumDetailsHeader />
+      <AlbumControl />
+      <TrackHeading />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { useState } from "react";
 
 function Album({ albumData, loading }) {
   console.log(albumData);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); //navigating to album details
   const { handleAlbumSelection } = useNavContext();
   return (
     <>

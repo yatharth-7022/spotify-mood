@@ -11,21 +11,21 @@ function MainContent() {
   const { isActive } = useNavContext();
 
   return (
-    <>
+    <div className="px-6 py-5">
       <Header />
       <div className="flex-1">
         {isActive === 2 ? (
           <Search />
         ) : (
-          <>
+          <div>
             <Greeting />
             <AddedPlaylist />
             <PlayListHeading />
             <Playlist />
-          </>
+          </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

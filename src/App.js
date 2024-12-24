@@ -17,7 +17,7 @@ function App() {
             <Navbar />
           </div>
 
-          <div className="relative flex h-screen flex-1 flex-col bg-custom-gradient px-9 py-4">
+          <div className="relative flex h-screen flex-1 flex-col bg-custom-gradient">
             <div className="relative flex-1 overflow-y-auto scrollbar-none">
               <Routes>
                 <Route path="/" element={<LoginButton />} />
