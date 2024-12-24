@@ -61,13 +61,13 @@ function AlbumDetailsHeader() {
     >
       <div className="ml-3 flex items-center">
         <img
-          className="sm-hidden hidden w-fit scale-90 rounded-md md:block lg:block"
-          src={selectedAlbum.images[1].url}
+          className="sm-hidden hidden w-fit scale-90 rounded-md shadow-xl md:block lg:block"
+          src={selectedAlbum.images[1]?.url}
           alt=""
         />
         <img
-          className="w-fit scale-90 rounded-md sm:block md:hidden lg:hidden"
-          src={selectedAlbum.images[1].url}
+          className="w-fit scale-90 rounded-md shadow-xl sm:block md:hidden lg:hidden"
+          src={selectedAlbum.images[2]?.url}
           alt=""
         />
       </div>

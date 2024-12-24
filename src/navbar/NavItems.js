@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router";
 import { useNavContext } from "../state managament/NavContext";
 import Search from "../ui/Search";
 const navItems1 = [
@@ -21,6 +22,7 @@ const navItems2 = [
 ];
 function NavItems() {
   const { isActive, handleIsActive } = useNavContext();
+  const navigate = useNavigate();
   return (
     <>
       <div className="w-full justify-center lg:flex lg:justify-start">
@@ -47,7 +49,9 @@ function NavItems() {
             onClick={() => {
               handleIsActive(navItem.id);
               if (navItem.id === 2) {
-                <Search />;
+                navigate("/search");
+              } else if (navItem.id === 1) {
+                navigate("/callback");
               }
             }}
           >

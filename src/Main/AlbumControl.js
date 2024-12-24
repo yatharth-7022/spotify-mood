@@ -5,15 +5,15 @@ function AlbumControl() {
   return (
     <div className="flex h-fit w-full justify-between px-5">
       <div className="flex items-center gap-8">
-        <MdPlayCircle className="h-[5rem] w-[5rem] cursor-pointer text-green-500" />
-        <IoAddCircleOutline className="h-[3rem] w-[3rem] cursor-pointer text-[#a0a0a0]" />
-        <div className="cursor-pointer text-[#a0a0a0]">
+        <MdPlayCircle className="h-[4rem] w-[4rem] cursor-pointer text-green-500 hover:scale-110 hover:text-green-600" />
+        <IoAddCircleOutline className="h-[2rem] w-[2rem] cursor-pointer text-[#a0a0a0] hover:text-[white]" />
+        <div className="cursor-pointer text-[#a0a0a0] hover:text-[white]">
           &bull; &bull; &bull;
         </div>
       </div>
-      <div className="flex items-center gap-3 text-[#a0a0a0]">
+      <div className="flex cursor-pointer items-center gap-3 text-[#a0a0a0] hover:text-[white]">
         List
-        <FaListUl className="" />
+        <FaListUl />
       </div>
     </div>
   );
