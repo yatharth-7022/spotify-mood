@@ -9,8 +9,11 @@ const availableGenres = [
 function Genres() {
   return (
     <div className="h-[50% lg:grid-cols-4] grid w-full grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3">
-      {availableGenres.map((genre) => (
-        <div className="translate relative cursor-pointer transition duration-300 hover:scale-90">
+      {availableGenres.map((genre, index) => (
+        <div
+          key={index}
+          className="translate relative cursor-pointer transition duration-300 hover:scale-90"
+        >
           <img src={genre.coverArt} alt="" className="object-cover" />
 
           <div className="absolute left-4 top-5 text-4xl font-semibold text-white">

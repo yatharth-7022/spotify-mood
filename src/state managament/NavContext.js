@@ -20,12 +20,19 @@ export const NavProvider = ({ children }) => {
   const [albumData, setAlbumData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedAlbum, setSelectedAlbum] = useState(null);
-
+  const [query, setQuery] = useState("");
+  const [result, setResult] = useState({
+    songs: [],
+    artists: [],
+    albums: [],
+    playlists: [],
+    shows: [],
+  });
   useEffect(() => {
     const albumDisplay = async () => {
       setIsLoading(true);
       const accessToken = localStorage.getItem("access_token");
-      console.log(accessToken);
+      // console.log(accessToken);
       if (!accessToken) {
         console.log("no access token found login again please");
       }
@@ -67,7 +74,7 @@ export const NavProvider = ({ children }) => {
       }
     }
   };
-  console.log(selectedAlbum);
+
   return (
     <NavContext.Provider
       value={{
@@ -77,6 +84,10 @@ export const NavProvider = ({ children }) => {
         selectedAlbum,
         albumData,
         handleAlbumSelection,
+        query,
+        setQuery,
+        result,
+        setResult,
       }}
     >
       {children}
