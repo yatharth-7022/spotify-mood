@@ -22,6 +22,7 @@ export const NavProvider = ({ children }) => {
   const [selectedAlbum, setSelectedAlbum] = useState(null);
   const [query, setQuery] = useState("");
   const [isSearchRoute, setIsSearchRoute] = useState(false);
+  const [id, setId] = useState("");
   const [result, setResult] = useState({
     songs: [],
     artists: [],
@@ -29,17 +30,19 @@ export const NavProvider = ({ children }) => {
     playlists: [],
     shows: [],
   });
+
   useEffect(() => {
     const albumDisplay = async () => {
+      if (!id || id.length === 0) return; // Skip if no ID is set
       setIsLoading(true);
       const accessToken = localStorage.getItem("access_token");
-      // console.log(accessToken);
       if (!accessToken) {
-        console.log("no access token found login again please");
+        console.log("No access token found. Please log in again.");
+        return;
       }
       try {
         const response = await fetch(
-          `https://api.spotify.com/v1/albums?ids=${albumIds.join(",")}`,
+          `https://api.spotify.com/v1/albums?ids=${id}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -47,11 +50,11 @@ export const NavProvider = ({ children }) => {
           },
         );
         if (!response.ok) {
-          throw new Error("cannot fetch data");
+          throw new Error("Cannot fetch data");
         }
-
         const data = await response.json();
-        setAlbumData((prevData) => data);
+        console.log("Fetched album data:", data);
+        setSelectedAlbum(data);
       } catch (err) {
         console.log(err);
       } finally {
@@ -59,7 +62,8 @@ export const NavProvider = ({ children }) => {
       }
     };
     albumDisplay();
-  }, []);
+  }, [id]);
+  console.log(selectedAlbum, "sel");
   const handleSelectedAlbum = (id) => {
     setSelectedAlbum(id);
 
@@ -74,6 +78,10 @@ export const NavProvider = ({ children }) => {
         setSelectedAlbum(albumData.albums[i]);
       }
     }
+  };
+  const handleAlbumOnSearch = (albumId) => {
+    console.log("handleAlbumOnSearch called with ID:", albumId); // Debugging
+    setId([albumId]);
   };
 
   return (
@@ -91,6 +99,7 @@ export const NavProvider = ({ children }) => {
         setResult,
         isSearchRoute,
         setIsSearchRoute,
+        handleAlbumOnSearch,
       }}
     >
       {children}

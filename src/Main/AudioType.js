@@ -8,7 +8,7 @@ const audioTypes = [
 ];
 function AudioType() {
   return (
-    <div className="grid h-[70%] w-full gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
+    <div className="grid h-[70%] w-full gap-3 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:gap-0">
       {audioTypes.map((type, index) => (
         <div
           key={index}

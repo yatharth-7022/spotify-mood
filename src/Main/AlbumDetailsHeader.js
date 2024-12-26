@@ -1,15 +1,15 @@
 import { useNavContext } from "../state managament/NavContext";
 import ColorThief from "colorthief";
 import { useState, useEffect } from "react";
+
 function AlbumDetailsHeader() {
   const [gradientColors, setGradientColors] = useState(["#000000", "#000000"]);
   const { selectedAlbum } = useNavContext();
-  console.log(selectedAlbum);
   useEffect(() => {
-    if (selectedAlbum.images) {
+    if (selectedAlbum?.albums[0].images) {
       const img = new Image();
       img.crossOrigin = "Anonymous";
-      img.src = selectedAlbum.images[0].url;
+      img.src = selectedAlbum?.albums[0]?.images[0]?.url;
 
       img.onload = () => {
         const colorThief = new ColorThief();
@@ -19,14 +19,15 @@ function AlbumDetailsHeader() {
         const rgbToHex = ([r, g, b]) =>
           `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
         const dominantHex = rgbToHex(dominantColor);
-        let secondaryHex = palette[1] ? rgbToHex(palette[1]) : dominantHex;
-        if (dominantHex === secondaryHex) {
-          secondaryHex = lightenColor(dominantHex, 20);
-        }
+        const secondaryHex =
+          palette[1] && dominantHex !== rgbToHex(palette[1])
+            ? rgbToHex(palette[1])
+            : lightenColor(dominantHex, 20);
         setGradientColors([dominantHex, secondaryHex]);
       };
     }
-  }, [selectedAlbum.images]);
+  }, [selectedAlbum]);
+
   const lightenColor = (hex, percent) => {
     const num = parseInt(hex.slice(1), 16);
     const r = Math.min(255, Math.floor((num >> 16) + (255 * percent) / 100));
@@ -40,15 +41,19 @@ function AlbumDetailsHeader() {
     );
     return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, "0")}`;
   };
-  const releaseDate = selectedAlbum.release_date;
 
+  if (!selectedAlbum) {
+    return <div>Loading album details...</div>;
+  }
+
+  const releaseDate = selectedAlbum.albums[0]?.release_date || "";
   const year = new Date(releaseDate).getFullYear();
-  const totalDuration = [];
-  selectedAlbum.tracks.items.forEach((item) =>
-    totalDuration.push(item.duration_ms),
-  );
-  const ms_duration = totalDuration.reduce((a, b) => a + b);
-  const totalSeconds = Math.floor(ms_duration / 1000);
+  const totalDuration =
+    selectedAlbum.albums[0]?.tracks?.items?.reduce(
+      (total, item) => total + item.duration_ms,
+      0,
+    ) || 0;
+  const totalSeconds = Math.floor(totalDuration / 1000);
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
 
@@ -62,25 +67,29 @@ function AlbumDetailsHeader() {
       <div className="ml-3 flex items-center">
         <img
           className="sm-hidden hidden w-fit scale-90 rounded-md shadow-xl md:block lg:block"
-          src={selectedAlbum.images[1]?.url}
+          src={selectedAlbum.albums[0]?.images?.[1]?.url}
           alt=""
         />
+
         <img
           className="w-fit scale-90 rounded-md shadow-xl sm:block md:hidden lg:hidden"
-          src={selectedAlbum.images[2]?.url}
+          src={selectedAlbum.albums[0]?.images?.[2]?.url}
           alt=""
         />
       </div>
       <div className="flex h-full flex-col justify-center gap-5 text-white">
         <span>Album</span>
         <h1 className="font-black sm:text-2xl md:text-5xl lg:text-7xl">
-          {selectedAlbum.name}
+          {selectedAlbum.albums[0]?.name}
         </h1>
         <div className="flex">
-          <div>{selectedAlbum.artists[0].name} &bull; &nbsp; </div>
+          <div>
+            {selectedAlbum.albums[0]?.artists?.[0]?.name} &bull; &nbsp;{" "}
+          </div>
           <div className="text-[#eaeaea]"> {year} &bull; &nbsp;</div>
           <div className="text-[#eaeaea]">
-            {selectedAlbum.total_tracks} songs, {minutes} min {seconds} sec
+            {selectedAlbum.albums[0]?.total_tracks} songs, {minutes} min{" "}
+            {seconds} sec
           </div>
         </div>
       </div>

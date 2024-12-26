@@ -3,13 +3,15 @@ import SortSearchResults from "./SortSearchResults";
 import { IoPlay } from "react-icons/io5";
 import { IoPlayCircle } from "react-icons/io5";
 import { FaPlay } from "react-icons/fa";
+import { useNavigate } from "react-router";
 function SearchResults() {
-  const { result, query } = useNavContext();
+  const { result, query, handleAlbumSelection, handleAlbumOnSearch } =
+    useNavContext();
   const resultKeys = Object.keys(result);
-
   const capitalized = resultKeys.map((str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   });
+  const navigate = useNavigate();
   function durationConvertor(duration) {
     let totalSeconds = Math.floor(duration / 1000);
     let minutes = Math.floor(totalSeconds / 60);
@@ -21,6 +23,7 @@ function SearchResults() {
     const year = date.getFullYear();
     return year;
   }
+
   console.log("Search Results:", result);
   return (
     <div className="mt-3 flex w-full flex-col gap-7 overflow-y-scroll scrollbar-none">
@@ -101,36 +104,44 @@ function SearchResults() {
                     ))}
                   </div>
                 ) : key === "albums" ? (
-                  <div className="flex gap-2" key="albums">
-                    {value.slice(0, 7).map((val) => (
-                      <div
-                        key={val.id}
-                        className="flex flex-col gap-1 p-2 hover:cursor-pointer hover:bg-[#282828]"
-                      >
-                        <div className="group relative">
-                          <img
-                            className="rounded-md object-cover"
-                            src={val.images[1]?.url}
-                            alt=""
-                          />
-                          <div className="absolute bottom-2 right-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                            <IoPlayCircle className="text-6xl text-green-500" />
+                  <div className="flex gap-1" key="albums">
+                    {}
+                    {value.slice(0, 7).map((val) => {
+                      return (
+                        <div
+                          key={val.id}
+                          className="flex flex-col gap-1 p-2 hover:cursor-pointer hover:bg-[#282828] md:w-[150px] lg:w-[200px]"
+                          onClick={() => {
+                            // console.log("album clicked", val.id);
+                            handleAlbumOnSearch(val.id);
+                            navigate(`/album/${val.id}`);
+                          }}
+                        >
+                          <div className="group relative">
+                            <img
+                              className="rounded-md object-cover"
+                              src={val.images[1]?.url}
+                              alt=""
+                            />
+                            <div className="absolute bottom-2 right-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                              <IoPlayCircle className="text-6xl text-green-500" />
+                            </div>
+                          </div>
+                          <div className="hover:underline">{val?.name}</div>
+
+                          <div className="text-sm text-[#a0a0a0]">
+                            <span>
+                              {dateToYearConvertor(val.release_date)} &bull;{" "}
+                            </span>
+                            <span className="hover:underline">
+                              {val.artists
+                                .map((artist) => artist.name)
+                                .join(", ")}
+                            </span>
                           </div>
                         </div>
-                        <div className="hover:underline">{val?.name}</div>
-
-                        <div className="text-sm text-[#a0a0a0]">
-                          <span>
-                            {dateToYearConvertor(val.release_date)} &bull;{" "}
-                          </span>
-                          <span className="hover:underline">
-                            {val.artists
-                              .map((artist) => artist.name)
-                              .join(", ")}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 ) : key === "playlists" ? (
                   <div className="flex gap-2" key="playlists">
@@ -142,12 +153,15 @@ function SearchResults() {
                           className="flex cursor-pointer flex-col gap-1 p-2 hover:bg-[#282828] md:w-[150px] lg:w-[200px]"
                           key={val.id}
                         >
-                          <div className="overflow-hidden">
+                          <div className="group relative overflow-hidden">
                             <img
                               className="object-cover"
                               src={val.images[1]?.url}
                               alt=""
                             />
+                            <div className="absolute bottom-2 right-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                              <IoPlayCircle className="text-6xl text-green-500" />
+                            </div>
                           </div>
                           <span className="line-clamp-2 text-sm font-medium hover:underline">
                             {val?.name}
@@ -165,8 +179,11 @@ function SearchResults() {
                         key={val.id}
                         className="flex flex-col gap-1 p-2 hover:bg-[#282828] md:w-[150px] lg:w-[200px]"
                       >
-                        <div>
+                        <div className="group relative">
                           <img src={val.images[1]?.url} alt="" />
+                          <div className="absolute bottom-2 right-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                            <IoPlayCircle className="text-6xl text-green-500" />
+                          </div>
                         </div>
                         <span className="line-clamp-2 text-sm font-medium hover:underline">
                           {val?.name}

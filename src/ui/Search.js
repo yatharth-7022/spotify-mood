@@ -51,7 +51,7 @@ function Search() {
     }
   }, [query]);
 
-  // console.log(query);
+  console.log(result, "this is result");
   return (
     <>
       <div className="flex flex-col gap-5 px-4 pb-4 pt-6">

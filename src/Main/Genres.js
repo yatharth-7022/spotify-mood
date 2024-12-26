@@ -8,7 +8,7 @@ const availableGenres = [
 ];
 function Genres() {
   return (
-    <div className="h-[50% lg:grid-cols-4] grid w-full grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3">
+    <div className="grid h-[50%] w-full grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {availableGenres.map((genre, index) => (
         <div
           key={index}
