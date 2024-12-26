@@ -158,12 +158,27 @@ function SearchResults() {
                         </div>
                       ))}
                   </div>
+                ) : key === "shows" ? (
+                  <div className="flex gap-1" key="shows">
+                    {value.slice(0, 7).map((val) => (
+                      <div
+                        key={val.id}
+                        className="flex flex-col gap-1 p-2 hover:bg-[#282828] md:w-[150px] lg:w-[200px]"
+                      >
+                        <div>
+                          <img src={val.images[1]?.url} alt="" />
+                        </div>
+                        <span className="line-clamp-2 text-sm font-medium hover:underline">
+                          {val?.name}
+                        </span>
+                        <span className="line-clamp-1 text-sm text-[#a0a0a0]">
+                          {val.publisher}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 ) : (
-                  value.map((val) => (
-                    <div>
-                      <div>{val?.name}</div>
-                    </div>
-                  ))
+                  ""
                 )}
               </div>
             </div>
