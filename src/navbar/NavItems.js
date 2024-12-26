@@ -1,7 +1,8 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router";
 import { useNavContext } from "../state managament/NavContext";
-import Search from "../ui/Search";
+
+import { useLocation } from "react-router";
+import { useEffect, useState } from "react";
 const navItems1 = [
   {
     id: 1,
@@ -22,17 +23,31 @@ const navItems2 = [
 ];
 function NavItems() {
   const { isActive, handleIsActive } = useNavContext();
+  const { isSearchRoute, setIsSearchRoute } = useNavContext();
   const navigate = useNavigate();
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname === "/search") {
+      setIsSearchRoute(true);
+    } else {
+      setIsSearchRoute(false);
+    }
+  }, [location.pathname]);
   return (
     <>
       <div className="w-full justify-center lg:flex lg:justify-start">
         <img
-          className="absolute top-2 block h-20 w-20 object-contain hover:cursor-pointer lg:hidden"
+          className={`absolute top-2 h-20 w-20 object-contain hover:cursor-pointer ${
+            isSearchRoute ? "mr-3 block" : "block lg:hidden"
+          }`}
           src="/assets/small-logo.png"
           alt="Spotify logo"
         />
+
         <img
-          className="absolute left-4 top-4 hidden h-[3rem] w-[8rem] object-contain hover:cursor-pointer lg:block"
+          className={`absolute left-4 top-4 hidden h-[3rem] w-[8rem] object-contain hover:cursor-pointer ${
+            isSearchRoute ? "hidden" : "lg:block"
+          }`}
           src="/assets/Spotify-logo.png"
           alt="Spotify logo"
         />
@@ -57,7 +72,11 @@ function NavItems() {
           >
             <div className="flex w-fit flex-row items-center gap-4">
               <img src={navItem.logo} alt="label logo" />
-              <span className="hidden lg:block">{navItem.label}</span>
+              <span
+                className={`hidden lg:block ${isSearchRoute ? "lg:hidden" : ""}`}
+              >
+                {navItem.label}
+              </span>
             </div>
           </div>
         ))}
@@ -75,26 +94,45 @@ function NavItems() {
           >
             <div className="flex w-fit flex-row items-center gap-4">
               <img src={navItem.logo} alt="label logo" />
-              <span className="hidden lg:block">{navItem.label}</span>
+              <span
+                className={`hidden lg:block ${isSearchRoute ? "lg:hidden" : ""}`}
+              >
+                {navItem.label}
+              </span>
             </div>
           </div>
         ))}
       </div>
       <div className="flex flex-col gap-3 px-2">
-        <span className="hidden hover:cursor-pointer lg:block">
+        <span
+          className={`hidden hover:cursor-pointer lg:block ${isSearchRoute ? "lg:hidden" : ""}`}
+        >
           {" "}
           Daily Mix 1
         </span>
-        <span className="hidden hover:cursor-pointer lg:block"> Malyalam</span>
-        <span className="hidden hover:cursor-pointer lg:block">
+        <span
+          className={`hidden hover:cursor-pointer lg:block ${isSearchRoute ? "lg:hidden" : ""}`}
+        >
+          {" "}
+          Malyalam
+        </span>
+        <span
+          className={`hidden hover:cursor-pointer lg:block ${isSearchRoute ? "lg:hidden" : ""}`}
+        >
           {" "}
           Dance/Electronic Mix
         </span>
-        <span className="hidden hover:cursor-pointer lg:block">
+        <span
+          className={`hidden hover:cursor-pointer lg:block ${isSearchRoute ? "lg:hidden" : ""}`}
+        >
           {" "}
           EDM/Popular
         </span>
-        <span className="hidden hover:cursor-pointer lg:block"> </span>
+        <span
+          className={`hidden hover:cursor-pointer lg:block ${isSearchRoute ? "lg:hidden" : ""}`}
+        >
+          {" "}
+        </span>
       </div>
     </>
   );

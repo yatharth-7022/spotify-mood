@@ -21,6 +21,7 @@ export const NavProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedAlbum, setSelectedAlbum] = useState(null);
   const [query, setQuery] = useState("");
+  const [isSearchRoute, setIsSearchRoute] = useState(false);
   const [result, setResult] = useState({
     songs: [],
     artists: [],
@@ -88,6 +89,8 @@ export const NavProvider = ({ children }) => {
         setQuery,
         result,
         setResult,
+        isSearchRoute,
+        setIsSearchRoute,
       }}
     >
       {children}

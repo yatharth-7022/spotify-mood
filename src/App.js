@@ -13,7 +13,7 @@ function App() {
     <NavProvider>
       <BrowserRouter>
         <div className="flex h-screen w-screen">
-          <div className="h-screen w-[70px] bg-navbar lg:w-[250px]">
+          <div>
             <Navbar />
           </div>
 
