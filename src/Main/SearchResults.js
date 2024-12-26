@@ -35,7 +35,10 @@ function SearchResults() {
               <div className="flex h-fit w-full flex-col gap-1 overflow-x-scroll scrollbar-none">
                 {key === "songs" ? (
                   value.slice(0, 4).map((val) => (
-                    <div className="group flex justify-between rounded-md pl-2 pr-4 hover:bg-[#282828]">
+                    <div
+                      key={val.id}
+                      className="group flex justify-between rounded-md pl-2 pr-4 hover:bg-[#282828]"
+                    >
                       <div className="flex gap-1">
                         <div className="group relative flex items-center">
                           <img
@@ -98,12 +101,15 @@ function SearchResults() {
                     ))}
                   </div>
                 ) : key === "albums" ? (
-                  <div className="flex flex-row gap-2">
+                  <div className="flex gap-2" key="albums">
                     {value.slice(0, 7).map((val) => (
-                      <div className="flex flex-col gap-1 p-2 hover:cursor-pointer hover:bg-[#282828]">
+                      <div
+                        key={val.id}
+                        className="flex flex-col gap-1 p-2 hover:cursor-pointer hover:bg-[#282828]"
+                      >
                         <div className="group relative">
                           <img
-                            className="rounded-md object-contain"
+                            className="rounded-md object-cover"
                             src={val.images[1]?.url}
                             alt=""
                           />
@@ -125,6 +131,32 @@ function SearchResults() {
                         </div>
                       </div>
                     ))}
+                  </div>
+                ) : key === "playlists" ? (
+                  <div className="flex gap-2" key="playlists">
+                    {value
+                      .filter((va) => va !== null && va.images[1])
+                      .slice(0, 7)
+                      .map((val) => (
+                        <div
+                          className="flex cursor-pointer flex-col gap-1 p-2 hover:bg-[#282828] md:w-[150px] lg:w-[200px]"
+                          key={val.id}
+                        >
+                          <div className="overflow-hidden">
+                            <img
+                              className="object-cover"
+                              src={val.images[1]?.url}
+                              alt=""
+                            />
+                          </div>
+                          <span className="line-clamp-2 text-sm font-medium hover:underline">
+                            {val?.name}
+                          </span>
+                          <span className="line-clamp-1 text-sm text-[#a0a0a0]">
+                            By {val.owner.display_name}
+                          </span>
+                        </div>
+                      ))}
                   </div>
                 ) : (
                   value.map((val) => (
