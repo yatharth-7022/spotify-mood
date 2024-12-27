@@ -22,7 +22,12 @@ export const NavProvider = ({ children }) => {
   const [selectedAlbum, setSelectedAlbum] = useState(null);
   const [query, setQuery] = useState("");
   const [isSearchRoute, setIsSearchRoute] = useState(false);
+  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+  const [selectedArtist, setSelectedAritst] = useState(null);
   const [id, setId] = useState("");
+  const [playlistId, setPlaylistId] = useState("");
+  const [artistId, setArtistId] = useState("");
+  const [selectedArtistSongs, setSelectedArtistSongs] = useState("");
   const [result, setResult] = useState({
     songs: [],
     artists: [],
@@ -30,10 +35,10 @@ export const NavProvider = ({ children }) => {
     playlists: [],
     shows: [],
   });
-
+  // album fetching
   useEffect(() => {
     const albumDisplay = async () => {
-      if (!id || id.length === 0) return; // Skip if no ID is set
+      if (!id || id.length === 0) return;
       setIsLoading(true);
       const accessToken = localStorage.getItem("access_token");
       if (!accessToken) {
@@ -63,36 +68,139 @@ export const NavProvider = ({ children }) => {
     };
     albumDisplay();
   }, [id]);
-  console.log(selectedAlbum, "sel");
-  const handleSelectedAlbum = (id) => {
-    setSelectedAlbum(id);
+  //playlist fetching
+  useEffect(() => {
+    const playlistDisplay = async () => {
+      if (!playlistId || playlistId.length === 0) return;
+      setIsLoading(true);
+      const accessToken = localStorage.getItem("access_token");
+      if (!accessToken) {
+        console.log("No access token found. Please log in again.");
+        return;
+      }
+      try {
+        const response = await fetch(
+          `https://api.spotify.com/v1/playlists/${playlistId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
+        if (!response.ok) {
+          throw new Error("Cannot fetch data");
+        }
+        const data = await response.json();
+        console.log("Fetched playlist data:", data);
+        setSelectedPlaylist(data);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    playlistDisplay();
+  }, [playlistId]);
+  //artist fetching
+  useEffect(() => {
+    const artistDisplay = async () => {
+      if (!artistId || artistId.length === 0) return;
+      setIsLoading(true);
+      const accessToken = localStorage.getItem("access_token");
+      if (!accessToken) {
+        console.log("No access token found. Please log in again.");
+        return;
+      }
+      try {
+        const response = await fetch(
+          `https://api.spotify.com/v1/artists/${artistId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
+        if (!response.ok) {
+          throw new Error("Cannot fetch data");
+        }
+        const artist = await response.json();
+        console.log("Fetched artist data:", artist);
+        setSelectedAritst(artist);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    artistDisplay();
+  }, [artistId]);
+  useEffect(() => {
+    const artistSongDisplay = async () => {
+      if (!artistId || artistId.length === 0) return;
+      setIsLoading(true);
+      const accessToken = localStorage.getItem("access_token");
+      if (!accessToken) {
+        console.log("No access token found. Please log in again.");
+        return;
+      }
+      try {
+        const response = await fetch(
+          `https://api.spotify.com/v1/artists/${artistId}/top-tracks`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
+        if (!response.ok) {
+          throw new Error("Cannot fetch data");
+        }
+        const artistSongs = await response.json();
+        console.log("Fetched artist sonngs:", artistSongs);
+        setSelectedArtistSongs(artistSongs.tracks);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    artistSongDisplay();
+  }, [artistId]);
+  // console.log(selectedAlbum, "sel");
 
-    // console.log(selectedAlbum);
-  };
   const handleIsActive = (id) => {
     setIsActive(id);
   };
-  const handleAlbumSelection = (id) => {
-    for (let i = 0; i < albumData.albums.length; i++) {
-      if (albumData.albums[i].id === id) {
-        setSelectedAlbum(albumData.albums[i]);
-      }
-    }
-  };
+  // const handleAlbumSelection = (id) => {
+  //   for (let i = 0; i < albumData.albums.length; i++) {
+  //     if (albumData.albums[i].id === id) {
+  //       setSelectedAlbum(albumData.albums[i]);
+  //     }
+  //   }
+  // };
   const handleAlbumOnSearch = (albumId) => {
     console.log("handleAlbumOnSearch called with ID:", albumId); // Debugging
     setId([albumId]);
   };
-
+  const handlePlayListOnSearch = (playListID) => {
+    setPlaylistId([playListID]);
+  };
+  const handleArtistOnSearch = (artistID) => {
+    setArtistId([artistID]);
+  };
+  function durationConvertor(duration) {
+    let totalSeconds = Math.floor(duration / 1000);
+    let minutes = Math.floor(totalSeconds / 60);
+    let seconds = totalSeconds % 60;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  }
   return (
     <NavContext.Provider
       value={{
         isActive,
         handleIsActive,
-        handleSelectedAlbum,
         selectedAlbum,
         albumData,
-        handleAlbumSelection,
         query,
         setQuery,
         result,
@@ -100,6 +208,14 @@ export const NavProvider = ({ children }) => {
         isSearchRoute,
         setIsSearchRoute,
         handleAlbumOnSearch,
+        selectedPlaylist,
+        handlePlayListOnSearch,
+        playlistId,
+        setPlaylistId,
+        handleArtistOnSearch,
+        selectedArtist,
+        selectedArtistSongs,
+        durationConvertor,
       }}
     >
       {children}

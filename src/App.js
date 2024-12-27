@@ -7,6 +7,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Search from "./ui/Search";
 import MainContent from "./Main/MainContent";
 import AlbumDetails from "./Main/AlbumDetails";
+import PlaylistDetails from "./Main/playlist/PlaylistDetails";
+import ArtistDetails from "./Main/artist/ArtistDetails";
 
 function App() {
   return (
@@ -26,6 +28,14 @@ function App() {
                 <Route
                   path="/album/:albumId"
                   element={<AlbumDetails />}
+                ></Route>
+                <Route
+                  path="/playlist/:playlistId"
+                  element={<PlaylistDetails />}
+                ></Route>
+                <Route
+                  path="/artist/:artistId"
+                  element={<ArtistDetails />}
                 ></Route>
               </Routes>
             </div>

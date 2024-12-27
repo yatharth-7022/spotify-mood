@@ -5,13 +5,22 @@ import { IoPlayCircle } from "react-icons/io5";
 import { FaPlay } from "react-icons/fa";
 import { useNavigate } from "react-router";
 function SearchResults() {
-  const { result, query, handleAlbumSelection, handleAlbumOnSearch } =
-    useNavContext();
+  const {
+    result,
+    query,
+    handleAlbumSelection,
+    handleAlbumOnSearch,
+    handlePlayListOnSearch,
+    playlistId,
+    handleArtistOnSearch,
+  } = useNavContext();
   const resultKeys = Object.keys(result);
   const capitalized = resultKeys.map((str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   });
   const navigate = useNavigate();
+  const navigatePlaylist = useNavigate();
+  const navigateArtist = useNavigate();
   function durationConvertor(duration) {
     let totalSeconds = Math.floor(duration / 1000);
     let minutes = Math.floor(totalSeconds / 60);
@@ -81,6 +90,10 @@ function SearchResults() {
                       <div
                         key={val.id}
                         className="flex flex-col items-center gap-2 rounded-md p-2 text-white hover:bg-[#282828]"
+                        onClick={() => {
+                          handleArtistOnSearch(val.id);
+                          navigateArtist(`/artist/${val.id}`);
+                        }}
                       >
                         <div className="lg:h-35 lg:w-35 overflow-hidden rounded-full">
                           <img
@@ -152,6 +165,10 @@ function SearchResults() {
                         <div
                           className="flex cursor-pointer flex-col gap-1 p-2 hover:bg-[#282828] md:w-[150px] lg:w-[200px]"
                           key={val.id}
+                          onClick={() => {
+                            handlePlayListOnSearch(val.id);
+                            navigatePlaylist(`/playlist/${val.id}`);
+                          }}
                         >
                           <div className="group relative overflow-hidden">
                             <img
