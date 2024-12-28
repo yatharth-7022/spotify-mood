@@ -1,6 +1,6 @@
-const clientId = "00e7dcc0cb3e487580d6f1bb18a480c8";
-// const redirectUrl = "https://0c7b-182-69-179-3.ngrok-free.app/callback";
-const redirectUrl = "http://localhost:3000/callback";
+const clientId = process.env.REACT_APP_CLIENT_ID;
+
+const redirectUrl = process.env.REACT_APP_REDIRECT_URI;
 const scopes = "user-library-read user-read-private";
 
 export const redirectToSpotifyAuth = () => {
