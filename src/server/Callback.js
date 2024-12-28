@@ -56,7 +56,11 @@ const Callback = () => {
 
     getAccessToken();
   }, []);
-
+  console.log("Environment Variables:", {
+    clientId,
+    clientSecret,
+    redirectUri,
+  });
   return (
     <div>
       {/* <AppLayout /> */}
