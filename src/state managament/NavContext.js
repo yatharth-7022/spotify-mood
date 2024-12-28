@@ -27,6 +27,8 @@ export const NavProvider = ({ children }) => {
   const [id, setId] = useState("");
   const [playlistId, setPlaylistId] = useState("");
   const [artistId, setArtistId] = useState("");
+  const [showMoreAlbums, setShowMoreAlbums] = useState(false);
+  const [selectedArtistAlbums, setSelectedArtistAlbums] = useState("");
   const [selectedArtistSongs, setSelectedArtistSongs] = useState("");
   const [result, setResult] = useState({
     songs: [],
@@ -167,7 +169,38 @@ export const NavProvider = ({ children }) => {
     artistSongDisplay();
   }, [artistId]);
   // console.log(selectedAlbum, "sel");
-
+  useEffect(() => {
+    const artistAlbumDisplay = async () => {
+      if (!artistId || artistId.length === 0) return;
+      setIsLoading(true);
+      const accessToken = localStorage.getItem("access_token");
+      if (!accessToken) {
+        console.log("No access token found. Please log in again.");
+        return;
+      }
+      try {
+        const response = await fetch(
+          `https://api.spotify.com/v1/artists/${artistId}/albums`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
+        if (!response.ok) {
+          throw new Error("Cannot fetch data");
+        }
+        const artistAlbums = await response.json();
+        console.log("Fetched artist albums:", artistAlbums.items);
+        setSelectedArtistAlbums(artistAlbums.items);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    artistAlbumDisplay();
+  }, [artistId]);
   const handleIsActive = (id) => {
     setIsActive(id);
   };
@@ -187,6 +220,9 @@ export const NavProvider = ({ children }) => {
   };
   const handleArtistOnSearch = (artistID) => {
     setArtistId([artistID]);
+  };
+  const handleShowMoreAlbums = () => {
+    setShowMoreAlbums(true);
   };
   function durationConvertor(duration) {
     let totalSeconds = Math.floor(duration / 1000);
@@ -216,6 +252,10 @@ export const NavProvider = ({ children }) => {
         selectedArtist,
         selectedArtistSongs,
         durationConvertor,
+        selectedArtistAlbums,
+        showMoreAlbums,
+        setShowMoreAlbums,
+        handleShowMoreAlbums,
       }}
     >
       {children}

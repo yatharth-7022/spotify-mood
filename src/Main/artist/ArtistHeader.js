@@ -48,15 +48,7 @@ function ArtistHeader() {
     return <div>Loading Artist details...</div>;
   }
   return (
-    <div
-      className="relative flex h-[45%] w-full flex-col justify-end bg-cover bg-center py-5"
-      style={{
-        backgroundImage: selectedArtist.images[0]?.url
-          ? `url(${selectedArtist.images[0]?.url})`
-          : "none",
-        backgroundPosition: "center 30%",
-      }}
-    >
+    <>
       <div className="absolute inset-0 bg-black opacity-30"></div>
       <div className="z-10 flex items-center gap-2 px-7">
         <span className="text-2xl text-[#4cb3ff]">
@@ -94,7 +86,7 @@ function ArtistHeader() {
           <span className="text-white">monthly listeners</span>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

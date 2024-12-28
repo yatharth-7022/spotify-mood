@@ -7,13 +7,13 @@ function ArtistTracklist() {
   const [showMore, setShowMore] = useState(5);
   function handleShowMore() {
     setShowMore((prevShowMore) =>
-      Math.min(prevShowMore + 5, selectedArtistSongs.length),
+      Math.min(prevShowMore + 5, selectedArtistSongs?.length || 0),
     );
   }
   const handleShowLess = () => {
     setShowMore(Math.max(5, showMore - 5));
   };
-  const displaySongs = selectedArtistSongs
+  const displaySongs = (selectedArtistSongs || [])
     .sort((a, b) => b.popularity - a.popularity)
     .slice(0, showMore);
   return (
@@ -41,7 +41,9 @@ function ArtistTracklist() {
                   />
                 </div>
                 <div className="flex flex-col justify-center gap-1">
-                  <span className="text-white">{track.name}</span>
+                  <span className="text-white hover:underline">
+                    {track.name}
+                  </span>
                   {track.explicit && (
                     <div className="flex items-center">
                       <MdExplicit className="scale-125 text-[#a0a0a0]" />

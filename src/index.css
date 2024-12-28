@@ -13,3 +13,6 @@ body {
     display: none;
   }
 } */
+:root {
+  --navbar-width: 70px;
+}
