@@ -1,4 +1,4 @@
-import { useNavContext } from "../state managament/NavContext";
+import { useNavContext } from "../../state managament/NavContext";
 
 function SortSearchResults() {
   const { result } = useNavContext();

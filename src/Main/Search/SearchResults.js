@@ -1,4 +1,4 @@
-import { useNavContext } from "../state managament/NavContext";
+import { useNavContext } from "../../state managament/NavContext";
 import SortSearchResults from "./SortSearchResults";
 import { IoPlay } from "react-icons/io5";
 import { IoPlayCircle } from "react-icons/io5";
@@ -7,11 +7,8 @@ import { useNavigate } from "react-router";
 function SearchResults() {
   const {
     result,
-    query,
-    handleAlbumSelection,
     handleAlbumOnSearch,
     handlePlayListOnSearch,
-    playlistId,
     handleArtistOnSearch,
   } = useNavContext();
   const resultKeys = Object.keys(result);

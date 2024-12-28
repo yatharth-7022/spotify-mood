@@ -3,6 +3,8 @@
 @tailwind utilities;
 body {
   @apply font-custom;
+  position: relative;
+  background-color: black;
 }
 /* @layer utilities {
   .hide-scrollbar {

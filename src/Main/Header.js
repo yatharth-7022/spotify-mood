@@ -1,6 +1,6 @@
 import BackForwardButton from "../buttons/backForwardButton";
-import Search from "../ui/Search";
-import SearchBar from "../ui/SearchBar";
+import Search from "./Search/Search";
+import SearchBar from "./Search/SearchBar";
 
 import User from "../user/User";
 function Header() {

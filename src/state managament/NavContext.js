@@ -30,6 +30,8 @@ export const NavProvider = ({ children }) => {
   const [showMoreAlbums, setShowMoreAlbums] = useState(false);
   const [selectedArtistAlbums, setSelectedArtistAlbums] = useState("");
   const [selectedArtistSongs, setSelectedArtistSongs] = useState("");
+  const [recentSearches, setRecentSearches] = useState([]);
+
   const [result, setResult] = useState({
     songs: [],
     artists: [],
@@ -37,6 +39,46 @@ export const NavProvider = ({ children }) => {
     playlists: [],
     shows: [],
   });
+  useEffect(() => {
+    if (!query) return;
+    setIsLoading(true);
+    const accessToken = localStorage.getItem("access_token");
+    if (!accessToken) {
+      console.log("no access token found login again please");
+    }
+    const url = `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=artist,album,track,playlist,show`;
+    const fetchSearchResults = async () => {
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+        const data = await response.json();
+
+        setResult({
+          songs: data.tracks?.items || [],
+          artists: data.artists?.items || [],
+          albums: data.albums?.items || [],
+          playlists: data.playlists?.items || [],
+          shows: data.shows?.items || [],
+        });
+        console.log(data, "hehe");
+      } catch (error) {
+        console.error("Error fetching details:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (query) {
+      fetchSearchResults();
+    }
+  }, [query]);
   // album fetching
   useEffect(() => {
     const albumDisplay = async () => {
@@ -222,7 +264,7 @@ export const NavProvider = ({ children }) => {
     setArtistId([artistID]);
   };
   const handleShowMoreAlbums = () => {
-    setShowMoreAlbums(true);
+    // setShowMoreAlbums(true);
   };
   function durationConvertor(duration) {
     let totalSeconds = Math.floor(duration / 1000);
@@ -230,6 +272,7 @@ export const NavProvider = ({ children }) => {
     let seconds = totalSeconds % 60;
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   }
+
   return (
     <NavContext.Provider
       value={{
@@ -256,6 +299,8 @@ export const NavProvider = ({ children }) => {
         showMoreAlbums,
         setShowMoreAlbums,
         handleShowMoreAlbums,
+        setRecentSearches,
+        recentSearches,
       }}
     >
       {children}

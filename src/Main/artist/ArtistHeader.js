@@ -4,7 +4,7 @@ import ColorThief from "colorthief";
 import { VscVerifiedFilled } from "react-icons/vsc";
 function ArtistHeader() {
   const [gradientColors, setGradientColors] = useState(["#000000", "#000000"]);
-  const { selectedArtist } = useNavContext();
+  const { selectedArtist, showMoreAlbums } = useNavContext();
   useEffect(() => {
     if (selectedArtist?.images) {
       const img = new Image();

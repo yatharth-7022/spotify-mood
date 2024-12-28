@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router";
 import { useNavContext } from "../state managament/NavContext";
-
 import { useLocation } from "react-router";
 import { useEffect, useState } from "react";
+import { BiLibrary } from "react-icons/bi";
 const navItems1 = [
   {
     id: 1,
@@ -34,23 +34,17 @@ function NavItems() {
     }
   }, [location.pathname]);
   return (
-    <>
-      <div className="w-full justify-center lg:flex lg:justify-start">
-        <img
-          className={`absolute top-2 h-20 w-20 object-contain hover:cursor-pointer ${
-            isSearchRoute ? "mr-3 block" : "block lg:hidden"
-          }`}
-          src="/assets/small-logo.png"
-          alt="Spotify logo"
-        />
-
-        <img
-          className={`absolute left-4 top-4 hidden h-[3rem] w-[8rem] object-contain hover:cursor-pointer ${
-            isSearchRoute ? "hidden" : "lg:block"
-          }`}
-          src="/assets/Spotify-logo.png"
-          alt="Spotify logo"
-        />
+    <div className="flex flex-col gap-3">
+      <div
+        onClick={() => setIsSearchRoute((prev) => !prev)}
+        className="justify-left flex w-full px-3 text-white"
+      >
+        <BiLibrary className="h-[2rem] w-auto" />
+        {isSearchRoute || (
+          <span className="rounded-md py-2 font-semibold text-white hover:cursor-pointer lg:justify-start lg:px-3 lg:py-2 lg:text-[1rem]">
+            Your Library
+          </span>
+        )}
       </div>
       <div className="items-centre flex flex-col gap-2 lg:gap-2">
         {navItems1.map((navItem) => (
@@ -134,7 +128,7 @@ function NavItems() {
           {" "}
         </span>
       </div>
-    </>
+    </div>
   );
 }
 

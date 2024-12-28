@@ -3,3 +3,10 @@ body {
   height: 100%;
   margin: 0; /* To remove any default margin */
 }
+input::placeholder {
+  color: #a2a2a2; /* Change the placeholder text color */
+  font-size: 1rem; /* Change the font size */
+  /* Make the placeholder text italic */
+  opacity: 1; /* Optional: make the placeholder fully opaque */
+  font-weight: 600;
+}

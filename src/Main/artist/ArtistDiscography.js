@@ -6,11 +6,10 @@ function ArtistDiscography() {
   const [activeId, setActiveId] = useState(null);
   const {
     selectedArtistAlbums = [],
-    isSearchRoute,
+    selectedArtist,
     handleAlbumOnSearch,
     setIsSearchRoute,
     showMoreAlbums,
-    setShowMoreAlbums,
     handleShowMoreAlbums,
   } = useNavContext();
   const location = useLocation();
@@ -36,12 +35,16 @@ function ArtistDiscography() {
     return year;
   }
   const navigate = useNavigate();
+  const navigateShowMoreAlbums = useNavigate();
+
   return (
     <div className="mt-3 flex flex-col gap-3 px-7">
       <div className="flex justify-between">
         <h1 className="text-2xl font-bold text-white">Discography</h1>
         <span
-          onClick={() => handleShowMoreAlbums()}
+          onClick={() => {
+            navigateShowMoreAlbums(`/artist/album/${selectedArtist?.id}`);
+          }}
           className="cursor-pointer text-sm font-bold text-[#a0a0a0] hover:underline"
         >
           Show All
