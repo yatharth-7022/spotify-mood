@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import Album from "./Album";
-import { useNavContext } from "../state managament/NavContext";
+import Album from "../albums/Album";
+import { useNavContext } from "../../state managament/NavContext";
 
 function Playlist() {
   const { albumData, isLoading } = useNavContext();

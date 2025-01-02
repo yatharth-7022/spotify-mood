@@ -112,6 +112,7 @@ export const NavProvider = ({ children }) => {
     };
     albumDisplay();
   }, [id]);
+
   //playlist fetching
   useEffect(() => {
     const playlistDisplay = async () => {
@@ -272,6 +273,9 @@ export const NavProvider = ({ children }) => {
     let seconds = totalSeconds % 60;
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   }
+  function releaseYear(year) {
+    return new Date(year).getFullYear();
+  }
 
   return (
     <NavContext.Provider
@@ -301,6 +305,7 @@ export const NavProvider = ({ children }) => {
         handleShowMoreAlbums,
         setRecentSearches,
         recentSearches,
+        releaseYear,
       }}
     >
       {children}

@@ -1,5 +1,5 @@
 import { useNavContext } from "../../state managament/NavContext";
-import AlbumControl from "../AlbumControl";
+import AlbumControl from "../albums/AlbumControl";
 import ArtistControl from "./ArtistControl";
 import ArtistDiscography from "./ArtistDiscography";
 import ArtistHeader from "./ArtistHeader";

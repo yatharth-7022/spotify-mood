@@ -1,4 +1,4 @@
-import { useNavContext } from "../state managament/NavContext";
+import { useNavContext } from "../../state managament/NavContext";
 import { IoPlay } from "react-icons/io5";
 import { useState } from "react";
 

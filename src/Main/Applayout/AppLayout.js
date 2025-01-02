@@ -1,8 +1,8 @@
 // Layout.js
 import React from "react";
-import BackForwardButton from "../buttons/backForwardButton";
+import BackForwardButton from "../../buttons/backForwardButton";
 import SearchBar from "../components/SearchBar";
-import User from "../user/User";
+import User from "../../user/User";
 import { Outlet } from "react-router-dom";
 
 const AppLayout = () => {

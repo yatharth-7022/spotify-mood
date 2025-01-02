@@ -1,4 +1,4 @@
-import { useNavContext } from "../state managament/NavContext";
+import { useNavContext } from "../../state managament/NavContext";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 

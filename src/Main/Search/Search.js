@@ -1,6 +1,6 @@
 import BackForwardButton from "../../buttons/backForwardButton";
-import AudioType from "../AudioType";
-import Genres from "../Genres";
+import AudioType from "../Tracks/AudioType";
+import Genres from "../albums/Genres";
 import SearchResults from "./SearchResults";
 import { useNavContext } from "../../state managament/NavContext";
 import User from "../../user/User";

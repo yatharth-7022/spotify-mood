@@ -1,5 +1,5 @@
-import AlbumControl from "../AlbumControl";
-import TrackHeading from "../TrackHeading";
+import AlbumControl from "../albums/AlbumControl";
+import TrackHeading from "../Tracks/TrackHeading";
 import PlaylistDetailsHeader from "./PlaylistDetailsHeader";
 import PlaylistTrackList from "./PlaylistTrackList";
 

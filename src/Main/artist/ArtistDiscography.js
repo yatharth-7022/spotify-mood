@@ -70,6 +70,7 @@ function ArtistDiscography() {
         selectedArtistAlbums.length > 0 ? (
           selectedArtistAlbums.slice(0, 7).map((album) => (
             <div
+              key={album.id}
               className="flex cursor-pointer flex-col gap-1 p-2 hover:bg-[#282828]"
               onClick={() => {
                 handleAlbumOnSearch(album.id);

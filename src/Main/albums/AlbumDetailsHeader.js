@@ -1,4 +1,4 @@
-import { useNavContext } from "../state managament/NavContext";
+import { useNavContext } from "../../state managament/NavContext";
 import ColorThief from "colorthief";
 import { useState, useEffect } from "react";
 

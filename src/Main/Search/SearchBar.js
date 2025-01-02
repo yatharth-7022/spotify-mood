@@ -1,13 +1,12 @@
 import { CiSearch } from "react-icons/ci";
-import { useState, useRef, useReducer } from "react";
+import { useState, useRef, useReducer, useEffect } from "react";
 import { useNavContext } from "../../state managament/NavContext";
-import { CiClock2 } from "react-icons/ci";
 import { IoMdRemoveCircle } from "react-icons/io";
 function SearchBar() {
   const { query, setQuery, recentSearches, setRecentSearches } =
     useNavContext();
   const [isOpen, setIsOpen] = useState(false);
-  const inputRef = useRef(null);
+  const searchContainerRef = useRef(null);
   const removeSearch = (searchTerm) => {
     // console.log("Removing:", searchTerm);
     setRecentSearches(recentSearches.filter((term) => term !== searchTerm));
@@ -21,12 +20,20 @@ function SearchBar() {
         } else {
           setRecentSearches([...recentSearches.slice(-1), query]);
         }
-        inputRef.current.focus();
       }
     }
   }
+  const handleOpen = () => {
+    if (query.length > 0) {
+      setIsOpen(false);
+    }
+  };
+
   return (
-    <div className="relative flex h-full w-full items-center">
+    <div
+      ref={searchContainerRef}
+      className="relative flex h-full w-full items-center"
+    >
       <div className="flex h-12 w-full flex-row items-center gap-4 rounded-3xl bg-[#1f1f1f] px-3">
         <CiSearch className="h-full w-6 scale-105 text-[#a2a2a2] hover:text-white" />
         <input
@@ -34,10 +41,9 @@ function SearchBar() {
           className="h-full w-full rounded-none bg-[#1f1f1f] pl-2 font-semibold text-white focus:outline-none focus:ring-0"
           placeholder="Artist, songs, or podcasts"
           onChange={(e) => setQuery(e.target.value)}
-          onFocus={() => setIsOpen(true)}
+          onClick={handleOpen}
           value={query}
           onKeyDown={handleKeyDown}
-          ref={inputRef}
         />
       </div>
 

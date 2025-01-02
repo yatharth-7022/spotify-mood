@@ -1,6 +1,6 @@
 // Callback.js
 import React, { useEffect } from "react";
-import MainContent from "../Main/MainContent";
+import MainContent from "../Main/Applayout/MainContent";
 // import AppLayout from "../applayout/AppLayout";
 
 const clientId = process.env.REACT_APP_CLIENT_ID;

@@ -1,16 +1,16 @@
 import "./App.css";
-import Navbar from "./navbar/Navbar";
+import Navbar from "./Main/navbar/Navbar";
 import { NavProvider } from "./state managament/NavContext";
 import Callback from "./server/Callback";
 import LoginButton from "./server/LoginButton";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Search from "./Main/Search/Search";
-import MainContent from "./Main/MainContent";
-import AlbumDetails from "./Main/AlbumDetails";
+import MainContent from "./Main/Applayout/MainContent";
+import AlbumDetails from "./Main/albums/AlbumDetails";
 import PlaylistDetails from "./Main/playlist/PlaylistDetails";
 import ArtistDetails from "./Main/artist/ArtistDetails";
-import ShowMoreAlbums from "./Main/ShowMoreAlbums";
-import PersistentHeader from "./Main/PersistentHeaer";
+import ShowMoreAlbums from "./Main/albums/ShowMoreAlbums";
+import PersistentHeader from "./Main/Header/PersistentHeaer";
 
 const App = () => {
   return (
@@ -21,7 +21,6 @@ const App = () => {
             <PersistentHeader />
           </div>
 
-          {/* Content container - includes navbar and main content */}
           <div className="flex flex-1 gap-2 overflow-hidden">
             <div>
               <Navbar />
