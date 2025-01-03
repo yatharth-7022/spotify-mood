@@ -1,8 +1,11 @@
 import { CiSearch } from "react-icons/ci";
-import { useState, useRef, useReducer, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router";
 import { useNavContext } from "../../state managament/NavContext";
 import { IoMdRemoveCircle } from "react-icons/io";
+import { debounce } from "lodash";
 function SearchBar() {
+  const navigate = useNavigate();
   const { query, setQuery, recentSearches, setRecentSearches } =
     useNavContext();
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +31,20 @@ function SearchBar() {
       setIsOpen(false);
     }
   };
-
+  const debouncedNavigate = useMemo(
+    () =>
+      debounce((value) => {
+        if (value.trim()) {
+          navigate(`/search/${query}`);
+        }
+      }, 300),
+    [navigate],
+  );
+  function handleSearch(e) {
+    const value = e.target.value;
+    setQuery(value);
+    debouncedNavigate(value);
+  }
   return (
     <div
       ref={searchContainerRef}
@@ -40,7 +56,7 @@ function SearchBar() {
           type="text"
           className="h-full w-full rounded-none bg-[#1f1f1f] pl-2 font-semibold text-white focus:outline-none focus:ring-0"
           placeholder="Artist, songs, or podcasts"
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleSearch}
           onClick={handleOpen}
           value={query}
           onKeyDown={handleKeyDown}

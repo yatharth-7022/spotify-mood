@@ -3,7 +3,7 @@ import SortSearchResults from "./SortSearchResults";
 import { IoPlay } from "react-icons/io5";
 import { IoPlayCircle } from "react-icons/io5";
 import { FaPlay } from "react-icons/fa";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 function SearchResults() {
   const {
     result,
@@ -11,10 +11,6 @@ function SearchResults() {
     handlePlayListOnSearch,
     handleArtistOnSearch,
   } = useNavContext();
-  const resultKeys = Object.keys(result);
-  const capitalized = resultKeys.map((str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  });
   const navigate = useNavigate();
   const navigatePlaylist = useNavigate();
   const navigateArtist = useNavigate();

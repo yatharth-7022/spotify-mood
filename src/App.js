@@ -11,6 +11,7 @@ import PlaylistDetails from "./Main/playlist/PlaylistDetails";
 import ArtistDetails from "./Main/artist/ArtistDetails";
 import ShowMoreAlbums from "./Main/albums/ShowMoreAlbums";
 import PersistentHeader from "./Main/Header/PersistentHeaer";
+import SearchResults from "./Main/Search/SearchResults";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
                 <Route path="/" element={<LoginButton />} />
                 <Route path="/callback" element={<Callback />} />
                 <Route path="/search" element={<Search />} />
+                <Route path="/search/:query" element={<SearchResults />} />
                 <Route path="/album/:albumId" element={<AlbumDetails />} />
                 <Route
                   path="/playlist/:playlistId"

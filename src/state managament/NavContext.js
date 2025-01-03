@@ -1,20 +1,19 @@
 import React, { createContext, useState, useContext } from "react";
-import { Link } from "react-router";
 import { useEffect } from "react";
 const NavContext = createContext();
-const albumIds = [
-  "7D2NdGvBHIavgLhmcwhluK",
-  "6X1x82kppWZmDzlXXK3y3q",
-  "0UMMIkurRUmkruZ3KGBLtG",
-  "0ptlfJfwGTy0Yvrk14JK1I",
-  "690w3h4czL3x3W3zIgEcB6",
-  "4SZko61aMnmgvNhfhgTuD3",
-  "41GuZcammIkupMPKH2OJ6I",
-  "4PWBTB6NYSKQwfo79I3prg",
-  "16PSZwABl4VFJvfDFOPOoB",
-  "1kTlYbs28MXw7hwO0NLYif",
-  "2ODvWsOgouMbaA5xf0RkJe",
-];
+// const albumIds = [
+//   "7D2NdGvBHIavgLhmcwhluK",
+//   "6X1x82kppWZmDzlXXK3y3q",
+//   "0UMMIkurRUmkruZ3KGBLtG",
+//   "0ptlfJfwGTy0Yvrk14JK1I",
+//   "690w3h4czL3x3W3zIgEcB6",
+//   "4SZko61aMnmgvNhfhgTuD3",
+//   "41GuZcammIkupMPKH2OJ6I",
+//   "4PWBTB6NYSKQwfo79I3prg",
+//   "16PSZwABl4VFJvfDFOPOoB",
+//   "1kTlYbs28MXw7hwO0NLYif",
+//   "2ODvWsOgouMbaA5xf0RkJe",
+// ];
 export const NavProvider = ({ children }) => {
   const [isActive, setIsActive] = useState(null);
   const [albumData, setAlbumData] = useState([]);
@@ -78,7 +77,7 @@ export const NavProvider = ({ children }) => {
     if (query) {
       fetchSearchResults();
     }
-  }, [query]);
+  }, [query, setQuery]);
   // album fetching
   useEffect(() => {
     const albumDisplay = async () => {
@@ -147,6 +146,7 @@ export const NavProvider = ({ children }) => {
     playlistDisplay();
   }, [playlistId]);
   //artist fetching
+
   useEffect(() => {
     const artistDisplay = async () => {
       if (!artistId || artistId.length === 0) return;
