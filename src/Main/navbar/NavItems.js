@@ -59,7 +59,7 @@ function NavItems() {
         ))}
       </div>
       <div className="items-centre flex flex-col gap-2 px-2 lg:gap-2 lg:px-0">
-        {userSavedAlbums.map((savedAlbums) => (
+        {userSavedAlbums?.map((savedAlbums) => (
           <div>
             <div
               className={`mx-[6px] flex gap-1 rounded-md hover:cursor-pointer ${isSearchRoute || "hover:bg-[#282828]"}`}
