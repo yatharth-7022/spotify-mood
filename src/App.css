@@ -4,6 +4,8 @@ body {
   margin: 0; /* To remove any default margin */
   padding-left: 5px;
   padding-right: 5px;
+  overflow: -moz-scrollbars-none; /* Firefox */
+  scrollbar-width: none; /* Firefox */
 }
 input::placeholder {
   color: #a2a2a2; /* Change the placeholder text color */
@@ -11,4 +13,7 @@ input::placeholder {
   /* Make the placeholder text italic */
   opacity: 1; /* Optional: make the placeholder fully opaque */
   font-weight: 600;
+}
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
 }

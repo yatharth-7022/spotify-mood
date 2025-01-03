@@ -2,11 +2,6 @@ import { useNavigate } from "react-router";
 import { useNavContext } from "../../state managament/NavContext";
 import { BiLibrary } from "react-icons/bi";
 const navItems1 = [
-  {
-    id: 1,
-    label: "Home",
-    logo: "/assets/Group-3.png",
-  },
   { id: 2, label: "Search", logo: "/assets/fi-rs-search.png" },
 ];
 
@@ -17,29 +12,29 @@ function NavItems() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-5">
       <div
         onClick={() => setIsSearchRoute((prev) => !prev)}
-        className="justify-left flex w-full pl-2 text-white"
+        className={`flex ${isSearchRoute ? "w-[71px] justify-center" : "w-full px-5"} group text-white`}
       >
         <button title="Expand your library">
-          <BiLibrary className="h-[2rem] w-auto" />
+          <BiLibrary className="h-[2rem] w-auto text-[#a0a0a0] group-hover:text-white" />
         </button>
 
         {isSearchRoute || (
-          <span className="rounded-md py-2 font-semibold text-white hover:cursor-pointer lg:justify-start lg:px-3 lg:py-2 lg:text-[1rem]">
+          <span className="rounded-md py-2 font-black text-[#a0a0a0] group-hover:text-white hover:cursor-pointer lg:justify-start lg:px-3 lg:py-2 lg:text-[1rem]">
             Your Library
           </span>
         )}
       </div>
-      <div className="items-centre flex flex-col gap-2">
+      <div className="items-centre flex flex-col gap-3">
         {navItems1.map((navItem) => (
           <div
             className={`${
               isActive === navItem.id
                 ? "bg-[#282828] transition-all duration-300 ease-in-out"
                 : "transition-all duration-300 ease-in-out hover:bg-[#282828]"
-            } flex flex-row justify-center rounded-md font-semibold hover:cursor-pointer lg:justify-start lg:text-[1rem]`}
+            } mx-1 flex flex-row justify-center rounded-md py-4 font-semibold hover:cursor-pointer lg:text-[1rem]`}
             key={navItem.id}
             onClick={() => {
               handleIsActive(navItem.id);
@@ -51,7 +46,9 @@ function NavItems() {
               }
             }}
           >
-            <div className="flex w-fit flex-row items-center gap-4">
+            <div
+              className={`flex ${isSearchRoute ? "w-[71px] justify-center" : "w-full px-5"} flex-row items-center gap-4`}
+            >
               <img src={navItem.logo} alt="label logo" />
               {isSearchRoute || <span>{navItem.label}</span>}
             </div>

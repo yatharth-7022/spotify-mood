@@ -11,7 +11,7 @@ function MainContent() {
   const { query } = useNavContext();
 
   return (
-    <div className="px-6 py-2">
+    <div className="overflow-auto px-6 py-2 scrollbar-none">
       <div className="flex-1">
         {query.length > 0 && <SearchResults />}
         <div>

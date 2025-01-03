@@ -1,6 +1,5 @@
 // components/PersistentHeader.js
 import React from "react";
-import BackForwardButton from "../../buttons/backForwardButton";
 import SearchBar from "../Search/SearchBar";
 import User from "../../user/User";
 import { FaSpotify } from "react-icons/fa";
@@ -9,13 +8,13 @@ import { useNavigate } from "react-router";
 import { useNavContext } from "../../state managament/NavContext";
 const PersistentHeader = () => {
   const navigate = useNavigate();
-  const { query, setQuery } = useNavContext();
+  const { setQuery } = useNavContext();
   // Header component
   return (
     <div className="sticky top-0 z-10 flex w-full items-center justify-between bg-black px-6 py-2">
       <div
         onClick={() => {
-          navigate(`/callback`);
+          navigate(`/home`);
           setQuery("");
         }}
         className="cursor-pointer text-white"
@@ -25,7 +24,7 @@ const PersistentHeader = () => {
       <div className="flex flex-1 items-center justify-center gap-3">
         <div
           onClick={() => {
-            navigate(`/callback`);
+            navigate(`/home`);
             setQuery("");
           }}
           className="cursor-pointer rounded-full bg-[#222222] p-2 hover:scale-105"

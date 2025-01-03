@@ -3,35 +3,37 @@ import Navbar from "./Main/navbar/Navbar";
 import { NavProvider } from "./state managament/NavContext";
 import Callback from "./server/Callback";
 import LoginButton from "./server/LoginButton";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Search from "./Main/Search/Search";
-import MainContent from "./Main/Applayout/MainContent";
 import AlbumDetails from "./Main/albums/AlbumDetails";
 import PlaylistDetails from "./Main/playlist/PlaylistDetails";
 import ArtistDetails from "./Main/artist/ArtistDetails";
 import ShowMoreAlbums from "./Main/albums/ShowMoreAlbums";
 import PersistentHeader from "./Main/Header/PersistentHeaer";
 import SearchResults from "./Main/Search/SearchResults";
+import { Home } from "lucide-react";
+import MainContent from "./Main/Applayout/MainContent";
 
 const App = () => {
   return (
     <NavProvider>
       <BrowserRouter>
-        <div className="flex h-screen w-screen flex-col">
+        <div className="flex h-screen w-screen flex-col overflow-y-scroll scrollbar-none">
           <div className="flex-none">
             <PersistentHeader />
           </div>
 
-          <div className="flex flex-1 gap-2 overflow-hidden">
+          <div className="flex flex-1 gap-2 overflow-scroll scrollbar-none">
             <div>
               <Navbar />
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 overflow-y-auto rounded-xl bg-custom-gradient">
+            <div className="flex-1 overflow-scroll rounded-xl bg-custom-gradient scrollbar-none">
               <Routes>
-                <Route path="/" element={<LoginButton />} />
+                <Route path="/" element={<Navigate to="/home" replace />} />
                 <Route path="/callback" element={<Callback />} />
+                <Route path="/home" element={<MainContent />} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/search/:query" element={<SearchResults />} />
                 <Route path="/album/:albumId" element={<AlbumDetails />} />
