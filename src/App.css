@@ -2,6 +2,8 @@ html,
 body {
   height: 100%;
   margin: 0; /* To remove any default margin */
+  padding-left: 5px;
+  padding-right: 5px;
 }
 input::placeholder {
   color: #a2a2a2; /* Change the placeholder text color */

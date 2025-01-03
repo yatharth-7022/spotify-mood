@@ -1,19 +1,6 @@
 import React, { createContext, useState, useContext } from "react";
 import { useEffect } from "react";
 const NavContext = createContext();
-// const albumIds = [
-//   "7D2NdGvBHIavgLhmcwhluK",
-//   "6X1x82kppWZmDzlXXK3y3q",
-//   "0UMMIkurRUmkruZ3KGBLtG",
-//   "0ptlfJfwGTy0Yvrk14JK1I",
-//   "690w3h4czL3x3W3zIgEcB6",
-//   "4SZko61aMnmgvNhfhgTuD3",
-//   "41GuZcammIkupMPKH2OJ6I",
-//   "4PWBTB6NYSKQwfo79I3prg",
-//   "16PSZwABl4VFJvfDFOPOoB",
-//   "1kTlYbs28MXw7hwO0NLYif",
-//   "2ODvWsOgouMbaA5xf0RkJe",
-// ];
 export const NavProvider = ({ children }) => {
   const [isActive, setIsActive] = useState(null);
   const [albumData, setAlbumData] = useState([]);
@@ -32,6 +19,7 @@ export const NavProvider = ({ children }) => {
   const [recentSearches, setRecentSearches] = useState([]);
   const [userData, setUserData] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [userSavedAlbums, setUserSavedAlbums] = useState(null);
   const [result, setResult] = useState({
     songs: [],
     artists: [],
@@ -39,49 +27,94 @@ export const NavProvider = ({ children }) => {
     playlists: [],
     shows: [],
   });
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     const accessToken = localStorage.getItem("access_token");
-  //     if (!accessToken) {
-  //       // Redirect to login or show login prompt
-  //       console.log("No access token found - user needs to login");
-  //       // You might want to set some state to show login UI
-  //       setIsLoggedIn(false); // Add this state if you haven't
-  //       return;
-  //     }
+  const isTokenExpired = () => {
+    const tokenExpiration = localStorage.getItem("token_expiration");
+    const currentTime = Date.now();
 
-  //     try {
-  //       const response = await fetch("https://api.spotify.com/v1/me", {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //         },
-  //       });
+    return !tokenExpiration || currentTime >= tokenExpiration;
+  };
+  const refreshAccessToken = async () => {
+    const refreshToken = localStorage.getItem("refresh_token");
+    const tokenUrl = "https://accounts.spotify.com/api/token";
 
-  //       if (response.status === 401) {
-  //         // Token expired or invalid
-  //         localStorage.removeItem("access_token");
-  //         // Redirect to login
-  //         console.log("Token expired - need to login again");
-  //         setIsLoggedIn(false);
-  //         return;
-  //       }
+    const body = new URLSearchParams({
+      grant_type: "refresh_token",
+      refresh_token: refreshToken,
+    });
 
-  //       if (!response.ok) {
-  //         throw new Error(`Failed to fetch user data: ${response.status}`);
-  //       }
+    const headers = {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Basic ${btoa(
+        `${process.env.REACT_APP_CLIENT_ID}:${process.env.REACT_APP_CLIENT_SECRET}`,
+      )}`,
+    };
 
-  //       const userData = await response.json();
-  //       setUserData(userData);
-  //       setIsLoggedIn(true);
-  //       console.log(userData, "userData");
-  //     } catch (error) {
-  //       console.error("Error fetching user data:", error);
-  //       setIsLoggedIn(false);
-  //     }
-  //   };
+    try {
+      const response = await fetch(tokenUrl, {
+        method: "POST",
+        headers: headers,
+        body: body,
+      });
 
-  //   fetchUserData();
-  // }, []);
+      if (!response.ok) {
+        const errorDetails = await response.json();
+        console.error("Error refreshing access token:", errorDetails);
+        throw new Error("Failed to refresh access token");
+      }
+
+      const data = await response.json();
+      console.log("Refreshed Access Token:", data.access_token);
+
+      // Update the  token and expiration time
+      const expiresIn = 3600 * 1000; // 1 hour in milliseconds
+      const expirationTime = Date.now() + expiresIn;
+
+      localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("token_expiration", expirationTime);
+
+      return data.access_token;
+    } catch (error) {
+      console.error("Error in refreshAccessToken:", error);
+      throw error;
+    }
+  };
+
+  const fetchUserData = async (accessToken) => {
+    const userUrl = "https://api.spotify.com/v1/me";
+
+    try {
+      console.log("Fetching user data with access token:", accessToken);
+      const response = await fetch(userUrl, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorDetails = await response.json();
+        console.error("Error fetching user data:", errorDetails);
+        throw new Error("Failed to fetch user data");
+      }
+
+      const data = await response.json();
+      console.log("User Data:", data);
+      setUserData(data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  // Function to handle API calls with token validation
+  const fetchWithValidToken = async (apiCall) => {
+    let accessToken = localStorage.getItem("access_token");
+
+    if (isTokenExpired()) {
+      console.log("Token expired, refreshing...");
+      accessToken = await refreshAccessToken();
+    }
+
+    return apiCall(accessToken);
+  };
 
   useEffect(() => {
     if (!query) return;
@@ -289,16 +322,42 @@ export const NavProvider = ({ children }) => {
     };
     artistAlbumDisplay();
   }, [artistId]);
+  useEffect(() => {
+    const fetchSavedAlbums = async () => {
+      const accessToken = localStorage.getItem("access_token");
+      if (!accessToken) {
+        setIsLoading(false);
+        return;
+      }
+      const limit = 50;
+      try {
+        const response = await fetch(
+          `https://api.spotify.com/v1/me/albums?limit=${limit}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch saved albums");
+        }
+        const data = await response.json();
+        console.log(data, "this is user saved albums");
+        setUserSavedAlbums(data.items);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchSavedAlbums();
+  }, []);
+
   const handleIsActive = (id) => {
     setIsActive(id);
   };
-  // const handleAlbumSelection = (id) => {
-  //   for (let i = 0; i < albumData.albums.length; i++) {
-  //     if (albumData.albums[i].id === id) {
-  //       setSelectedAlbum(albumData.albums[i]);
-  //     }
-  //   }
-  // };
+
   const handleAlbumOnSearch = (albumId) => {
     console.log("handleAlbumOnSearch called with ID:", albumId); // Debugging
     setId([albumId]);
@@ -351,6 +410,10 @@ export const NavProvider = ({ children }) => {
         setRecentSearches,
         recentSearches,
         releaseYear,
+        fetchWithValidToken,
+        fetchUserData,
+        userData,
+        userSavedAlbums,
       }}
     >
       {children}

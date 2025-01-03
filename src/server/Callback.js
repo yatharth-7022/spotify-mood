@@ -1,102 +1,103 @@
 import React, { useEffect, useState } from "react";
 import MainContent from "../Main/Applayout/MainContent";
+import { useNavContext } from "../state managament/NavContext";
 
 const Callback = () => {
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState(null);
+  const { fetchWithValidToken, fetchUserData, userData } = useNavContext();
 
   // Function to refresh the access token
-  const refreshAccessToken = async () => {
-    const refreshToken = localStorage.getItem("refresh_token");
-    const tokenUrl = "https://accounts.spotify.com/api/token";
+  // const refreshAccessToken = async () => {
+  //   const refreshToken = localStorage.getItem("refresh_token");
+  //   const tokenUrl = "https://accounts.spotify.com/api/token";
 
-    const body = new URLSearchParams({
-      grant_type: "refresh_token",
-      refresh_token: refreshToken,
-    });
+  //   const body = new URLSearchParams({
+  //     grant_type: "refresh_token",
+  //     refresh_token: refreshToken,
+  //   });
 
-    const headers = {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Basic ${btoa(
-        `${process.env.REACT_APP_CLIENT_ID}:${process.env.REACT_APP_CLIENT_SECRET}`,
-      )}`,
-    };
+  //   const headers = {
+  //     "Content-Type": "application/x-www-form-urlencoded",
+  //     Authorization: `Basic ${btoa(
+  //       `${process.env.REACT_APP_CLIENT_ID}:${process.env.REACT_APP_CLIENT_SECRET}`,
+  //     )}`,
+  //   };
 
-    try {
-      const response = await fetch(tokenUrl, {
-        method: "POST",
-        headers: headers,
-        body: body,
-      });
+  //   try {
+  //     const response = await fetch(tokenUrl, {
+  //       method: "POST",
+  //       headers: headers,
+  //       body: body,
+  //     });
 
-      if (!response.ok) {
-        const errorDetails = await response.json();
-        console.error("Error refreshing access token:", errorDetails);
-        throw new Error("Failed to refresh access token");
-      }
+  //     if (!response.ok) {
+  //       const errorDetails = await response.json();
+  //       console.error("Error refreshing access token:", errorDetails);
+  //       throw new Error("Failed to refresh access token");
+  //     }
 
-      const data = await response.json();
-      console.log("Refreshed Access Token:", data.access_token);
+  //     const data = await response.json();
+  //     console.log("Refreshed Access Token:", data.access_token);
 
-      // Update the  token and expiration time
-      const expiresIn = 3600 * 1000; // 1 hour in milliseconds
-      const expirationTime = Date.now() + expiresIn;
+  //     // Update the  token and expiration time
+  //     const expiresIn = 3600 * 1000; // 1 hour in milliseconds
+  //     const expirationTime = Date.now() + expiresIn;
 
-      localStorage.setItem("access_token", data.access_token);
-      localStorage.setItem("token_expiration", expirationTime);
+  //     localStorage.setItem("access_token", data.access_token);
+  //     localStorage.setItem("token_expiration", expirationTime);
 
-      return data.access_token;
-    } catch (error) {
-      console.error("Error in refreshAccessToken:", error);
-      throw error;
-    }
-  };
+  //     return data.access_token;
+  //   } catch (error) {
+  //     console.error("Error in refreshAccessToken:", error);
+  //     throw error;
+  //   }
+  // };
 
   // Function to check if the token is expired
-  const isTokenExpired = () => {
-    const tokenExpiration = localStorage.getItem("token_expiration");
-    const currentTime = Date.now();
+  // const isTokenExpired = () => {
+  //   const tokenExpiration = localStorage.getItem("token_expiration");
+  //   const currentTime = Date.now();
 
-    return !tokenExpiration || currentTime >= tokenExpiration;
-  };
+  //   return !tokenExpiration || currentTime >= tokenExpiration;
+  // };
 
   // Function to fetch user data
-  const fetchUserData = async (accessToken) => {
-    const userUrl = "https://api.spotify.com/v1/me";
+  // const fetchUserData = async (accessToken) => {
+  //   const userUrl = "https://api.spotify.com/v1/me";
 
-    try {
-      console.log("Fetching user data with access token:", accessToken);
-      const response = await fetch(userUrl, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+  //   try {
+  //     console.log("Fetching user data with access token:", accessToken);
+  //     const response = await fetch(userUrl, {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     });
 
-      if (!response.ok) {
-        const errorDetails = await response.json();
-        console.error("Error fetching user data:", errorDetails);
-        throw new Error("Failed to fetch user data");
-      }
+  //     if (!response.ok) {
+  //       const errorDetails = await response.json();
+  //       console.error("Error fetching user data:", errorDetails);
+  //       throw new Error("Failed to fetch user data");
+  //     }
 
-      const data = await response.json();
-      console.log("User Data:", data);
-      setUserData(data);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
+  //     const data = await response.json();
+  //     console.log("User Data:", data);
+  //     setUserData(data);
+  //   } catch (error) {
+  //     console.error("Error fetching user data:", error);
+  //   }
+  // };
 
-  // Function to handle API calls with token validation
-  const fetchWithValidToken = async (apiCall) => {
-    let accessToken = localStorage.getItem("access_token");
+  // // Function to handle API calls with token validation
+  // const fetchWithValidToken = async (apiCall) => {
+  //   let accessToken = localStorage.getItem("access_token");
 
-    if (isTokenExpired()) {
-      console.log("Token expired, refreshing...");
-      accessToken = await refreshAccessToken();
-    }
+  //   if (isTokenExpired()) {
+  //     console.log("Token expired, refreshing...");
+  //     accessToken = await refreshAccessToken();
+  //   }
 
-    return apiCall(accessToken);
-  };
+  //   return apiCall(accessToken);
+  // };
 
   // Main function to get access token and fetch user data
   useEffect(() => {
