@@ -31,6 +31,7 @@ export const NavProvider = ({ children }) => {
   const [selectedArtistSongs, setSelectedArtistSongs] = useState("");
   const [recentSearches, setRecentSearches] = useState([]);
   const [userData, setUserData] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [result, setResult] = useState({
     songs: [],
     artists: [],
@@ -38,32 +39,49 @@ export const NavProvider = ({ children }) => {
     playlists: [],
     shows: [],
   });
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const accessToken = localStorage.getItem("access_token"); // Correct key
-      if (!accessToken) {
-        console.log("Access token not found. Please log in.");
-        return;
-      }
-      try {
-        const response = await fetch("https://api.spotify.com/v1/me", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error(`Failed to fetch user data: ${response.status}`);
-        }
-        const userData = await response.json(); // Await the JSON response
-        setUserData(userData); // Assuming `setUserData` is correctly initialized
-        console.log(userData, "userData");
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     const accessToken = localStorage.getItem("access_token");
+  //     if (!accessToken) {
+  //       // Redirect to login or show login prompt
+  //       console.log("No access token found - user needs to login");
+  //       // You might want to set some state to show login UI
+  //       setIsLoggedIn(false); // Add this state if you haven't
+  //       return;
+  //     }
 
-    fetchUserData();
-  }, []);
+  //     try {
+  //       const response = await fetch("https://api.spotify.com/v1/me", {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       });
+
+  //       if (response.status === 401) {
+  //         // Token expired or invalid
+  //         localStorage.removeItem("access_token");
+  //         // Redirect to login
+  //         console.log("Token expired - need to login again");
+  //         setIsLoggedIn(false);
+  //         return;
+  //       }
+
+  //       if (!response.ok) {
+  //         throw new Error(`Failed to fetch user data: ${response.status}`);
+  //       }
+
+  //       const userData = await response.json();
+  //       setUserData(userData);
+  //       setIsLoggedIn(true);
+  //       console.log(userData, "userData");
+  //     } catch (error) {
+  //       console.error("Error fetching user data:", error);
+  //       setIsLoggedIn(false);
+  //     }
+  //   };
+
+  //   fetchUserData();
+  // }, []);
 
   useEffect(() => {
     if (!query) return;

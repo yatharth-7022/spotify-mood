@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useState } from "react";
 
 function Album({ albumData, loading }) {
-  console.log(albumData);
+  // console.log(albumData);
   const navigate = useNavigate(); //navigating to album details
   const { handleAlbumSelection } = useNavContext();
   return (

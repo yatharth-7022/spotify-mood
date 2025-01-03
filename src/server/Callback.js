@@ -3,6 +3,7 @@ import MainContent from "../Main/Applayout/MainContent";
 
 const Callback = () => {
   const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const getAccessToken = async () => {
@@ -46,10 +47,29 @@ const Callback = () => {
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("refresh_token", data.refresh_token);
         console.log("Access Token stored in localStorage:", data.access_token);
+        await fetchUserData(data.access_token);
       } catch (error) {
         console.error("Error fetching access token:", error);
       } finally {
         setLoading(false);
+      }
+    };
+    const fetchUserData = async (accessToken) => {
+      const userUrl = "https://api.spotify.com/v1/me";
+      try {
+        const response = await fetch(userUrl, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+        const data = await response.json();
+        console.log(data, "this is user data");
+        setUserData(data);
+      } catch (error) {
+        console.log(error);
       }
     };
 
