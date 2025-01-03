@@ -31,7 +31,7 @@ const App = () => {
             {/* Main Content */}
             <div className="flex-1 overflow-scroll rounded-xl bg-custom-gradient scrollbar-none">
               <Routes>
-                <Route path="/" element={<Navigate to="/home" replace />} />
+                <Route path="/" element={<LoginButton />} />
                 <Route path="/callback" element={<Callback />} />
                 <Route path="/home" element={<MainContent />} />
                 <Route path="/search" element={<Search />} />
