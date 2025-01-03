@@ -30,7 +30,7 @@ export const NavProvider = ({ children }) => {
   const [selectedArtistAlbums, setSelectedArtistAlbums] = useState("");
   const [selectedArtistSongs, setSelectedArtistSongs] = useState("");
   const [recentSearches, setRecentSearches] = useState([]);
-
+  const [userData, setUserData] = useState(null);
   const [result, setResult] = useState({
     songs: [],
     artists: [],
@@ -38,6 +38,33 @@ export const NavProvider = ({ children }) => {
     playlists: [],
     shows: [],
   });
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const accessToken = localStorage.getItem("access_token"); // Correct key
+      if (!accessToken) {
+        console.log("Access token not found. Please log in.");
+        return;
+      }
+      try {
+        const response = await fetch("https://api.spotify.com/v1/me", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error(`Failed to fetch user data: ${response.status}`);
+        }
+        const userData = await response.json(); // Await the JSON response
+        setUserData(userData); // Assuming `setUserData` is correctly initialized
+        console.log(userData, "userData");
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   useEffect(() => {
     if (!query) return;
     setIsLoading(true);

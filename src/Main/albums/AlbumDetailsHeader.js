@@ -64,19 +64,20 @@ function AlbumDetailsHeader() {
         background: `linear-gradient(to top, ${gradientColors[0]}, ${gradientColors[1]})`,
       }}
     >
-      <div className="ml-3 flex items-center">
+      <div className="ml-3 flex items-center py-5">
         <img
-          className="sm-hidden hidden w-fit scale-90 rounded-md shadow-xl md:block lg:block"
+          className="sm-hidden hidden h-[15rem] w-auto transform rounded-md object-cover shadow-xl transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl md:block lg:block"
           src={selectedAlbum.albums[0]?.images?.[1]?.url}
           alt=""
         />
 
         <img
-          className="w-fit scale-90 rounded-md shadow-xl sm:block md:hidden lg:hidden"
+          className="w-fit scale-90 transform rounded-md shadow-xl transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl sm:block md:hidden lg:hidden"
           src={selectedAlbum.albums[0]?.images?.[2]?.url}
           alt=""
         />
       </div>
+
       <div className="flex h-full flex-col justify-center gap-5 text-white">
         <span>Album</span>
         <h1 className="font-black sm:text-2xl md:text-5xl lg:text-7xl">

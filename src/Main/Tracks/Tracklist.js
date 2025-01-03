@@ -27,26 +27,26 @@ function Tracklist() {
           onMouseLeave={() => setHoveredTrack(null)}
         >
           <div className="flex gap-6">
-            <div
-              className={`${
-                hoveredTrack === index ? "text-white" : "text-[#a0a0a0]"
-              } flex items-center`}
-            >
-              {hoveredTrack === index ? <IoPlay /> : index + 1}
-            </div>
+            <span className="flex h-full w-[15px] items-center">
+              {hoveredTrack === index ? (
+                <IoPlay className="h-[20px] w-[20px]" />
+              ) : (
+                index + 1
+              )}
+            </span>
 
             <div className="flex flex-col">
-              <div>{track.name}</div>
+              <div className="hover:underline">{track.name}</div>
               <div
                 className={`${
                   hoveredTrack === index ? "text-white" : "text-[#a0a0a0]"
-                }`}
+                } hover:underline`}
               >
                 {track.artists.map((artist) => artist.name).join(", ")}
               </div>
             </div>
           </div>
-          <div className="flex items-center text-[#a0a0a0]">
+          <div className="flex items-center text-sm text-[#a0a0a0]">
             {durationConvertor(track.duration_ms)}
           </div>
         </div>
